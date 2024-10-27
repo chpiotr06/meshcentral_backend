@@ -7,12 +7,7 @@ services:
     restart: always
     ports:
       - '4000:4000'
-    environment:
-      - DATABASE_HOST=${DATABASE_HOST}
-      - DATABASE_PORT=${DATABASE_PORT}
-      - DATABASE_USER=${DATABASE_USER}
-      - DATABASE_PASSWORD=${DATABASE_PASSWORD}
-      - DATABASE_NAME=${DATABASE_NAME}
+    env_file: .docker.env
     networks:
       - app-network
     depends_on:
@@ -22,10 +17,12 @@ services:
     image: postgres:latest
     container_name: postgres-db
     restart: always
+    ports:
+      - '6500:5432'
     environment:
-      POSTGRES_USER: ${DATABASE_USER}
-      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
-      POSTGRES_DB: ${DATABASE_NAME}
+      - POSTGRES_USER=${DATABASE_USER}
+      - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
+      - POSTGRES_DB=${DATABASE_NAME}
     volumes:
       - pgdata:/var/lib/postgresql/data
     networks:
