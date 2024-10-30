@@ -9,7 +9,10 @@ import { OrganizationModule } from './organization/organization.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: '.env',
+    }),
     UsersModule,
     AuthModule,
     PrismaModule,
