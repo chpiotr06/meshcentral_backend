@@ -15,6 +15,6 @@ export class OrganizationController {
   @UseGuards(JwtAuthGuard)
   @Get()
   async getOrganizations() {
-    return [];
+    return ['accessible only by authenticated user'];
   }
 }
