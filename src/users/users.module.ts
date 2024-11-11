@@ -4,6 +4,7 @@ import { APP_PIPE } from '@nestjs/core';
 import { PrismaModule } from 'src/prisma/prisma.module';
 import { CurrentUserMiddleware } from 'src/middleware/current-user.middleware';
 import { JwtModule } from '@nestjs/jwt';
+import { UsersController } from './users.controller';
 
 @Module({
   imports: [PrismaModule, JwtModule],
@@ -15,6 +16,7 @@ import { JwtModule } from '@nestjs/jwt';
     },
   ],
   exports: [UsersService],
+  controllers: [UsersController],
 })
 export class UsersModule {
   configure(consumer: MiddlewareConsumer) {
