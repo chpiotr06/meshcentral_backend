@@ -1,10 +1,12 @@
-import { Module, ValidationPipe } from '@nestjs/common';
+import { MiddlewareConsumer, Module, ValidationPipe } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { APP_PIPE } from '@nestjs/core';
 import { PrismaModule } from 'src/prisma/prisma.module';
+import { CurrentUserMiddleware } from 'src/middleware/current-user.middleware';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
-  imports: [PrismaModule],
+  imports: [PrismaModule, JwtModule],
   providers: [
     UsersService,
     {
@@ -14,4 +16,8 @@ import { PrismaModule } from 'src/prisma/prisma.module';
   ],
   exports: [UsersService],
 })
-export class UsersModule {}
+export class UsersModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(CurrentUserMiddleware).forRoutes('*');
+  }
+}
