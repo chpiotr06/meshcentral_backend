@@ -27,7 +27,6 @@ export class AuthController {
     return response.send(res);
   }
 
-  @UseGuards(LocalAuthGuard)
   @Post('logout')
   async logout(@Request() req, @Response() response) {
     response.setHeader('Set-Cookie', `Nest-Auth=deleted; Path=/`);
