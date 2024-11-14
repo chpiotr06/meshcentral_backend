@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { genSalt, hash, compare } from 'bcrypt';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { UsersService } from 'src/users/users.service';
@@ -25,7 +25,10 @@ export class AuthService {
 
   async validateUser(email: string, password: string) {
     const user = await this.usersService.findUserByEmail(email);
+    if (!user) throw new BadRequestException('Invalid credentials');
+
     const compareResult = await compare(password, user.password);
+    if (!compareResult) throw new BadRequestException('Invalid credentials');
 
     if (user && compareResult) {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars -- destructure to remove not needed property

@@ -30,6 +30,6 @@ export class AuthController {
   @Post('logout')
   async logout(@Request() req, @Response() response) {
     response.setHeader('Set-Cookie', `Nest-Auth=deleted; Path=/`);
-    return response.send();
+    return response.send({ status: 'OK' });
   }
 }
