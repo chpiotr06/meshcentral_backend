@@ -7,7 +7,7 @@ export class CreateOrganizationDto {
   @IsString()
   country: string;
 
-  @IsPostalCode()
+  @IsPostalCode('PL')
   postal: string;
 
   @IsString()
