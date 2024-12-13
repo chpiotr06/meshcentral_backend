@@ -1,10 +1,15 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { genSalt, hash, compare } from 'bcrypt';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { UsersService } from 'src/users/users.service';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { User } from '@prisma/client';
 import { JwtService } from '@nestjs/jwt';
+import { CreateUserWithOrgDto } from './dtos/create-user-with-org.dot';
 
 @Injectable()
 export class AuthService {
@@ -14,13 +19,26 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async createUser(data: CreateUserDto) {
+  async createUser(data: CreateUserDto | CreateUserWithOrgDto) {
     const salt = await genSalt(10);
     const hashedPassword = await hash(data.password, salt);
 
-    return this.prismaService.user.create({
-      data: { email: data.email, password: hashedPassword },
-    });
+    try {
+      const user = await this.prismaService.user.create({
+        data: {
+          email: data.email,
+          password: hashedPassword,
+          organizationId: data.organizationId ? data.organizationId : null,
+        },
+      });
+
+      return user;
+    } catch (error) {
+      if (error.code === 'P2002')
+        throw new BadRequestException('Email already in use');
+
+      throw new InternalServerErrorException('Something went wrong');
+    }
   }
 
   async validateUser(email: string, password: string) {

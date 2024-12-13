@@ -6,4 +6,6 @@ export class CreateUserDto {
 
   @IsString()
   password: string;
+
+  organizationId?: number;
 }
