@@ -26,4 +26,10 @@ export class OrganizationService {
   async findOrgById(id: number) {
     return this.prismaService.organization.findUnique({ where: { id: id } });
   }
+
+  async getAllOrganisations() {
+    return this.prismaService.organization.findMany({
+      select: { id: true, name: true, address: true },
+    });
+  }
 }

@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   Post,
@@ -9,6 +10,7 @@ import {
 import { CreateUserDto } from './dtos/create-user.dto';
 import { AuthService } from './auth.service';
 import { LocalAuthGuard } from './local-auth.guard';
+import { CreateUserWithOrgDto } from './dtos/create-user-with-org.dot';
 
 @Controller('auth')
 export class AuthController {
@@ -16,6 +18,13 @@ export class AuthController {
 
   @Post('register')
   async registerUser(@Body() body: CreateUserDto) {
+    return this.authService.createUser(body);
+  }
+
+  @Post('register-with-org')
+  async registerWithOrg(@Body() body: CreateUserWithOrgDto) {
+    if (body.password !== body.confirm) throw new BadRequestException();
+
     return this.authService.createUser(body);
   }
 
