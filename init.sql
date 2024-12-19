@@ -60,4 +60,19 @@ INSERT INTO "User" (id, email, password, "organizationId", "createdAt", "isAdmin
 INSERT INTO "User" (id, email, password, "organizationId", "createdAt", "isAdmin") VALUES (21, 'test3@example.com', '$2b$10$9hOX3vTJ/Vvq2m/qwVz4yedhQgH75kUYDT9jIOy31omhilnF2mi0a', null, '2024-12-13 16:18:37.438', false);
 INSERT INTO "User" (id, email, password, "organizationId", "createdAt", "isAdmin") VALUES (1, 'test@test.com', '$2b$10$iwxspVhE4PgpKxvjqXzCiu0B..QN/LNIws178OKFx5XBmFH1NDs1u', null, '2024-11-04 16:13:18.973', true);
 
+-- CreateTable
+CREATE TABLE "Devices" (
+    "id" SERIAL NOT NULL,
+    "Uuid" UUID NOT NULL,
+    "Token" TEXT NOT NULL,
+    "Mac" TEXT NOT NULL,
+    "FirmwareVersion" TEXT NOT NULL,
+    "CreatedAt" TIMESTAMP(3) NOT NULL,
+    "UpdatedAt" TIMESTAMP(3) NOT NULL,
+    "organizationId" INTEGER NOT NULL,
 
+    CONSTRAINT "Devices_pkey" PRIMARY KEY ("id")
+);
+
+-- AddForeignKey
+ALTER TABLE "Devices" ADD CONSTRAINT "Devices_organizationId_fkey" FOREIGN KEY ("organizationId") REFERENCES "Organization"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

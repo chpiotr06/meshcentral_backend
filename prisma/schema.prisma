@@ -39,4 +39,18 @@ model Organization {
   addressId Int
   address   Address @relation(fields: [addressId], references: [id])
   user      User[]
+
+  Devices Devices[]
+}
+
+model Devices {
+  id Int @id @default(autoincrement())
+  Uuid String @db.Uuid
+  Token String 
+  Mac String
+  FirmwareVersion String 
+  CreatedAt DateTime
+  UpdatedAt DateTime
+  organizationId Int
+  organization Organization @relation(fields: [organizationId], references: [id])
 }
