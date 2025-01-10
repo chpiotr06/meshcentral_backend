@@ -45,12 +45,24 @@ model Organization {
 
 model Devices {
   id Int @id @default(autoincrement())
-  Uuid String @db.Uuid
-  Token String 
-  Mac String
-  FirmwareVersion String 
-  CreatedAt DateTime
-  UpdatedAt DateTime
+  uuid String @db.Uuid @unique
+  token String 
+  mac String
+  name String
+  firmwareVersion String 
+  createdAt DateTime
+  updatedAt DateTime
   organizationId Int
   organization Organization @relation(fields: [organizationId], references: [id])
+
+  Geolocations Geolocations[]
+}
+
+model Geolocations {
+  id Int @id @default(autoincrement())
+  deviceId Int 
+  device Devices @relation(fields: [deviceId], references: [id])
+  longitude Float
+  latitude Float
+  addedAt DateTime @default(now()) @db.Timestamp(3)
 }
