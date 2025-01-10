@@ -7,6 +7,7 @@ import { AuthModule } from './auth/auth.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { OrganizationModule } from './organization/organization.module';
 import { DevicesModule } from './devices/devices.module';
+import { GeolocationsModule } from './geolocations/geolocations.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { DevicesModule } from './devices/devices.module';
     PrismaModule,
     OrganizationModule,
     DevicesModule,
+    GeolocationsModule,
   ],
   providers: [AppService, PrismaService],
 })
