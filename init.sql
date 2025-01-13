@@ -38,6 +38,7 @@ CREATE TABLE "Devices" (
     "token" TEXT NOT NULL,
     "mac" TEXT NOT NULL,
     "name" TEXT NOT NULL,
+    "ipv4" TEXT NOT NULL,
     "firmwareVersion" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL,
     "updatedAt" TIMESTAMP(3) NOT NULL,
@@ -46,8 +47,22 @@ CREATE TABLE "Devices" (
     CONSTRAINT "Devices_pkey" PRIMARY KEY ("id")
 );
 
+-- CreateTable
+CREATE TABLE "Geolocations" (
+    "id" SERIAL NOT NULL,
+    "deviceId" INTEGER NOT NULL,
+    "longitude" DOUBLE PRECISION NOT NULL,
+    "latitude" DOUBLE PRECISION NOT NULL,
+    "addedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "Geolocations_pkey" PRIMARY KEY ("id")
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Devices_uuid_key" ON "Devices"("uuid");
 
 -- AddForeignKey
 ALTER TABLE "User" ADD CONSTRAINT "User_organizationId_fkey" FOREIGN KEY ("organizationId") REFERENCES "Organization"("id") ON DELETE SET NULL ON UPDATE CASCADE;
@@ -57,6 +72,9 @@ ALTER TABLE "Organization" ADD CONSTRAINT "Organization_addressId_fkey" FOREIGN 
 
 -- AddForeignKey
 ALTER TABLE "Devices" ADD CONSTRAINT "Devices_organizationId_fkey" FOREIGN KEY ("organizationId") REFERENCES "Organization"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Geolocations" ADD CONSTRAINT "Geolocations_deviceId_fkey" FOREIGN KEY ("deviceId") REFERENCES "Devices"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 INSERT INTO "Address" (id, country, postal, "addressLine1", "addressLine2", "addressLine3") VALUES (1, 'USA', '95134', 'Cisco Systems, Inc.', '170 West Tasman Dr.', 'San Jose, CA');
 INSERT INTO "Address" (id, country, postal, "addressLine1", "addressLine2", "addressLine3") VALUES (2, 'Poland', '30-059', 'Akademia Górniczo-Hutnicza im. Stanisława Staszica w Krakowie', 'al. Mickiewicza 30', null);

@@ -30,14 +30,14 @@ export class DevicesService {
         mac: body.mac,
         name: body.name,
         firmwareVersion: body.firmwareVersion,
+        ipv4: body.ipv4,
         createdAt: new Date(),
         updatedAt: new Date(),
         organizationId: user.organizationId,
       },
     });
-    newDevice.token = token;
 
-    return body;
+    return { ...body, token, id: newDevice.id };
   }
 
   async authorizeDevice(token: string, uuid: string) {
