@@ -1,4 +1,4 @@
-import { IsMACAddress, IsSemVer, IsString } from 'class-validator';
+import { IsIP, IsMACAddress, IsSemVer, IsString } from 'class-validator';
 
 export class CreateDeviceDto {
   @IsString()
@@ -9,4 +9,7 @@ export class CreateDeviceDto {
 
   @IsSemVer()
   firmwareVersion: string;
+
+  @IsIP('4')
+  ipv4: string;
 }

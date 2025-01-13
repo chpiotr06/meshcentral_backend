@@ -49,6 +49,7 @@ model Devices {
   token String 
   mac String
   name String
+  ipv4 String
   firmwareVersion String 
   createdAt DateTime
   updatedAt DateTime
