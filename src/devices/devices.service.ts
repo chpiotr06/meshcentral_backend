@@ -37,7 +37,7 @@ export class DevicesService {
       },
     });
 
-    return { ...body, token, id: newDevice.id };
+    return { ...body, token, id: newDevice.id, uuid };
   }
 
   async authorizeDevice(token: string, uuid: string) {
@@ -60,5 +60,57 @@ export class DevicesService {
       throw new NotFoundException('Device with provided uuid not found');
 
     return found;
+  }
+
+  async getDeviceGeolocationsByUuid(userOrgId: number, deviceUuid: string) {
+    return this.prismaService.devices.findUnique({
+      select: {
+        Geolocations: {
+          select: { latitude: true, longitude: true },
+          orderBy: { addedAt: 'desc' },
+        },
+      },
+      where: { organizationId: userOrgId, uuid: deviceUuid },
+    });
+  }
+
+  async getAllDevices(userOrgId: number) {
+    return this.prismaService.devices.findMany({
+      select: {
+        name: true,
+        ipv4: true,
+        mac: true,
+        uuid: true,
+        firmwareVersion: true,
+        createdAt: true,
+      },
+      where: {
+        organizationId: userOrgId,
+      },
+    });
+  }
+
+  async getDevicesWithGeolocation(userOrgId: number) {
+    const data = await this.prismaService.devices.findMany({
+      select: {
+        name: true,
+        ipv4: true,
+        mac: true,
+        uuid: true,
+        Geolocations: {
+          select: {
+            latitude: true,
+            longitude: true,
+          },
+          orderBy: { addedAt: 'desc' },
+          take: 1,
+        },
+      },
+      where: {
+        organizationId: userOrgId,
+        Geolocations: { some: {} },
+      },
+    });
+    return data;
   }
 }
