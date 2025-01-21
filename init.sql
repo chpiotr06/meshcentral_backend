@@ -76,10 +76,10 @@ ALTER TABLE "Devices" ADD CONSTRAINT "Devices_organizationId_fkey" FOREIGN KEY (
 -- AddForeignKey
 ALTER TABLE "Geolocations" ADD CONSTRAINT "Geolocations_deviceId_fkey" FOREIGN KEY ("deviceId") REFERENCES "Devices"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
-INSERT INTO "Address" (id, country, postal, "addressLine1", "addressLine2", "addressLine3") VALUES (1, 'USA', '95134', 'Cisco Systems, Inc.', '170 West Tasman Dr.', 'San Jose, CA');
-INSERT INTO "Address" (id, country, postal, "addressLine1", "addressLine2", "addressLine3") VALUES (2, 'Poland', '30-059', 'Akademia Górniczo-Hutnicza im. Stanisława Staszica w Krakowie', 'al. Mickiewicza 30', null);
-INSERT INTO "Address" (id, country, postal, "addressLine1", "addressLine2", "addressLine3") VALUES (3, 'Poland', '02-222', 'Microsoft Sp. z o.o.', 'Al. Jerozolimskie 195a', null);
-INSERT INTO "Address" (id, country, postal, "addressLine1", "addressLine2", "addressLine3") VALUES (4, 'USA', '12-123', 'Google HQ ', '1600 Amphitheatre Parkway', 'Mountain View, CA');
+INSERT INTO "Address" (id, country, postal, "addressLine1", "addressLine2", "addressLine3") VALUES (1, 'Poland', '30-059', 'Akademia Górniczo-Hutnicza im. Stanisława Staszica w Krakowie', 'al. Mickiewicza 30', null);
+INSERT INTO "Address" (id, country, postal, "addressLine1", "addressLine2", "addressLine3") VALUES (2, 'Poland', '30-727', 'InPost sp. z o.o.', 'ul. Pana Tadeusza 4', null);
+INSERT INTO "Address" (id, country, postal, "addressLine1", "addressLine2", "addressLine3") VALUES (3, 'USA', '38107', 'FedEx', '942 South Shady Grove Road', null);
+INSERT INTO "Address" (id, country, postal, "addressLine1", "addressLine2", "addressLine3") VALUES (4, 'France', '92130', 'DPD Headquarters', '26 Rue Guynemer', 'Issy-les-Moulineaux');
 
 INSERT INTO "Organization" (id, name, "addressId") VALUES (1, 'MeshCentral', 1);
 INSERT INTO "Organization" (id, name, "addressId") VALUES (2, 'Inpost', 2);
